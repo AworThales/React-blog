@@ -7,15 +7,18 @@ const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const CategoryRoute = require("./routes/categories");
 const multer = require("multer");
-const port = 7000;
+const path = require("path");
+const port = 5000;
 
 
 dotenv.config();
 app.use(express.json());
+app.use("/images", express.static(path.join(__dirname, "/images")));
 
 mongoose.connect(process.env.MONDB, {
     useNewUrlParser: true,
-        useUnifiedTopology: true,
+    useUnifiedTopology: true,
+    // useFindAndModify: true,
 })
 .then(console.log("Connected to MongoDB"))
 .catch((err) => console.log(err));
