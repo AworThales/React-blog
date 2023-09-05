@@ -1,39 +1,27 @@
 import ai from '../../assets/ai.jpg';
 import './post.scss';
+import {Link} from "react-router-dom"
 
-export default function post() {
+export default function post({post}) {
+    const publicFolder = "http://localhost:5000/images/";
   return (
     <div className='post'>
-        <img className='postImg' src={ai} alt="AI" />
+        {post.photo && 
+            <img className='postImg' src={publicFolder + post.photo} alt="AI" />
+        }
         <div className="postInfo">
             <div className="postCats">
-                <span className="postCat">React JS</span>
-                <span className="postCat">Vue JS</span>
+                {post.categories.map((cat)=>(
+                    <span className="postCat">{cat.name}</span>
+                ))}
             </div>
-            <span className="postTitle">
-                Career in Software Engineering is Soft 
-            </span>
+            <Link to={`/post/${post._id}`} className='link'>
+                <span className="postTitle"> {post.title} </span>
+            </Link>
             <hr />
-            <span className="postDate">2 hours ago</span>
+            <span className="postDate">{new Date(post.createdAt).toDateString()}</span>
         </div>
-        <p className='postDesc'>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-            Voluptates, facere in? Illo asperiores earum distinctio quod, 
-            amet assumenda praesentium debitis ab aperiam? Lorem, ipsum.
-            Ad nemo qui tempore explicabo possimus debitis natus.
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-            Voluptates, facere in? Illo asperiores earum distinctio quod, 
-            amet assumenda praesentium debitis ab aperiam? Lorem, ipsum.
-            Ad nemo qui tempore explicabo possimus debitis natus.
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-            Voluptates, facere in? Illo asperiores earum distinctio quod, 
-            amet assumenda praesentium debitis ab aperiam? Lorem, ipsum.
-            Ad nemo qui tempore explicabo possimus debitis natus.
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-            Voluptates, facere in? Illo asperiores earum distinctio quod, 
-            amet assumenda praesentium debitis ab aperiam? Lorem, ipsum.
-            Ad nemo qui tempore explicabo possimus debitis natus.
-        </p>
+        <p className='postDesc'> {post.desc} </p>
     </div>
   )
 }

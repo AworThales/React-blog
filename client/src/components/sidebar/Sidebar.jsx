@@ -1,7 +1,24 @@
 import './sidebar.scss';
 import ai from '../../assets/ai.jpg';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
+  const [cats, setCats] = useState([]);
+
+  useEffect(() =>{
+    const getCats = async () =>{
+      try {
+        const res = await axios.get("/categories");
+        console.log(res);
+        setCats(res.data);
+      } catch (err) {
+        console.log(err);
+      };
+    };
+    getCats();
+  },[]);
   return (
     <div className='sidebar'>
       <span className="sidebarTitle">ABOUT ME</span>
@@ -12,12 +29,11 @@ export default function Sidebar() {
         <div className="sidebarItem">
             <span className="sidebarTitle">CATEGORIES</span>
             <ul className="sidebarList">
-                <li className="sidebarListItem">React Js</li>
-                <li className="sidebarListItem">Node Js</li>
-                <li className="sidebarListItem">Vue Js</li>
-                <li className="sidebarListItem">Vite Js</li>
-                <li className="sidebarListItem">Typescript Js</li>
-                <li className="sidebarListItem">Javascript</li>
+              {cats.map((cat)=>(
+                <Link to={`/?cat=${cat.name}`} className='link'>
+                  <li className="sidebarListItem">{cat.name}</li>
+                </Link>
+              ))}
             </ul>
         </div>
         <div className="sidebarItem">
